@@ -66,7 +66,7 @@ const TodoList = () => {
           type="text"
           value={task}
           onChange={(e) => setTask(e.target.value)}
-          placeholder="Add a new task"
+          placeholder="Agrega una nueva tarea"
           style={{
             padding: '10px',
             fontSize: '1.2rem',
@@ -83,7 +83,7 @@ const TodoList = () => {
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer'
-        }}>Add Task</button>
+        }}>Agregar tarea</button>
       </form>
 
       <ul style={{ listStyle: 'none', padding: 0 }}>
