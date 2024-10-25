@@ -5,37 +5,37 @@ import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 import './index.css';
 
 const TodoList = () => {
-  const [task, setTask] = useState("");  // Guardar la nueva tarea ingresada por el usuario
-  const [tasks, setTasks] = useState([]);  // Guardar la lista de tareas obtenidas de Firebase
+  const [task, setTask] = useState(""); 
+  const [tasks, setTasks] = useState([]);  
 
-  // Cargar las tareas desde Firebase cuando se monta el componente
+ 
   useEffect(() => {
     const fetchTasks = async () => {
-      const querySnapshot = await getDocs(collection(db, "tasks"));  // Obtenemos las tareas
+      const querySnapshot = await getDocs(collection(db, "tasks"));  
       const tasksArray = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       }));
-      setTasks(tasksArray);  // Guardamos las tareas en el estado
+      setTasks(tasksArray);  
     };
     
-    fetchTasks();  // Llamamos a la función que carga las tareas
+    fetchTasks();  
   }, []);
 
-  // Función para agregar una nueva tarea
+ 
   const addTask = async (e) => {
-    e.preventDefault();  // Evitar el refresco de la página
-    if (task.trim() === "") return;  // Evitar agregar tareas vacías
+    e.preventDefault();  
+    if (task.trim() === "") return;  
 
-    // Agregamos la tarea a Firebase
+    
     await addDoc(collection(db, "tasks"), {
       name: task,
-      completed: false  // Inicialmente, la tarea no está completada
+      completed: false  
     });
 
-    setTask("");  // Limpiar el campo de texto
+    setTask("");  
     
-    // Recargamos las tareas para incluir la nueva
+    
     const querySnapshot = await getDocs(collection(db, "tasks"));
     const tasksArray = querySnapshot.docs.map(doc => ({
       id: doc.id,
@@ -44,15 +44,15 @@ const TodoList = () => {
     setTasks(tasksArray);
   };
 
-  // Función para marcar una tarea como completada o incompleta
+  
   const toggleCompleteTask = async (taskId, currentStatus) => {
     const taskDoc = doc(db, "tasks", taskId);
-    await updateDoc(taskDoc, { completed: !currentStatus });  // Alternamos el estado `completed`
+    await updateDoc(taskDoc, { completed: !currentStatus });  
 
     const updatedTasks = tasks.map(task =>
       task.id === taskId ? { ...task, completed: !currentStatus } : task
     );
-    setTasks(updatedTasks);  // Actualizamos la lista de tareas
+    setTasks(updatedTasks);  
   };
 
   return (
